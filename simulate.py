@@ -7,5 +7,4 @@ for i in range(1000):
     p.stepSimulation()
     t.sleep(1/60)
     print(i)
-
 p.disconnect()
