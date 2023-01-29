@@ -8,6 +8,7 @@ p.setAdditionalSearchPath(pybullet_data.getDataPath())  # gets custom pybullet s
 p.setGravity(0, 0, -9.8)  # set gravity
 
 planeId = p.loadURDF("plane.urdf")  # loads floor
+torsoId = p.loadURDF("body.urdf") # creates robot
 p.loadSDF("world.sdf")
 
 for i in range(1000):
