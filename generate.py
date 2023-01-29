@@ -9,7 +9,9 @@ x = 1 / 2
 y = 1 / 2
 z = 1 / 2
 
-for i in range(10):
-    pyrosim.Send_Cube(name="Box", pos=[x, y, z + i], size=[length * (.9 ** i), width * (.9 ** i), height * (.9 ** i)])
+for r in range(3):
+    for c in range(3):
+        for n in range(10): # Creates one tower
+            pyrosim.Send_Cube(name="Box", pos=[x + r, y + c, z + n], size=[length * (.9 ** n), width * (.9 ** n), height * (.9 ** n)])
 
 pyrosim.End()
