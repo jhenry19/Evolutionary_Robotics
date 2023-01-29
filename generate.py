@@ -8,6 +8,8 @@ height = 1
 x = 1 / 2
 y = 1 / 2
 z = 1 / 2
-pyrosim.Send_Cube(name="Box", pos=[x, y, z], size=[length, width, height])
-pyrosim.Send_Cube(name="Box2", pos=[1 + x, y, 1 + z], size=[length, width, height])
+
+for i in range(10):
+    pyrosim.Send_Cube(name="Box", pos=[x, y, z + i], size=[length * (.9 ** i), width * (.9 ** i), height * (.9 ** i)])
+
 pyrosim.End()
