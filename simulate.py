@@ -5,11 +5,12 @@ import time as t
 import pybullet_data
 import pyrosim.pyrosim as pyrosim
 import numpy
+import matplotlib.pyplot as mat
 import random as rand
 
-SIMULATION_STEPS = 100
+SIMULATION_STEPS = 1000
 amplitude = math.pi / 4.0
-frequency = 1
+frequency = 10
 phaseOffset = 0
 
 physicsClient = p.connect(p.GUI)
@@ -27,11 +28,15 @@ frontLegSensorValues = numpy.zeros(SIMULATION_STEPS)
 
 # Create sin array
 targetAngles = numpy.zeros(SIMULATION_STEPS)
-x = numpy.linspace(0, 2 * numpy.pi, SIMULATION_STEPS)
-for i in range(len(x)):
-    targetAngles[i] = numpy.sin(x[i]) * math.pi / 4.0
+functionFrequency = frequency / (SIMULATION_STEPS / 20 * math.pi)
+for i in range(SIMULATION_STEPS):
+    targetAngles[i] = amplitude * numpy.sin(functionFrequency * i + phaseOffset)
 
-# numpy.save("data/SinGraph", targetAngles)
+numpy.save("data/SinGraph", targetAngles)
+
+mat.plot(targetAngles)
+mat.show()
+quit()
 
 for i in range(SIMULATION_STEPS):
     p.stepSimulation()
