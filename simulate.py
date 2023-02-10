@@ -17,8 +17,8 @@ backAmplitude = math.pi / 4.0
 backFrequency = 10
 backPhaseOffset = 0
 frontAmplitude = math.pi / 4.0
-frontFrequency = 10
-frontPhaseOffset = numpy.pi/4
+frontFrequency = 20
+frontPhaseOffset = numpy.pi
 
 physicsClient = p.connect(p.GUI)
 p.setAdditionalSearchPath(pybullet_data.getDataPath())  # gets custom pybullet shapes for easier use
@@ -55,12 +55,12 @@ for i in range(SIMULATION_STEPS):
                                 jointName="Torso_BackLeg",
                                 controlMode=p.POSITION_CONTROL,
                                 targetPosition=backTargetAngles[i],
-                                maxForce=20)
+                                maxForce=15)
     pyrosim.Set_Motor_For_Joint(bodyIndex=robotId,
                                 jointName="Torso_FrontLeg",
                                 controlMode=p.POSITION_CONTROL,
                                 targetPosition=frontTargetAngles[i],
-                                maxForce=20)
+                                maxForce=15)
     t.sleep(1 / 60)
 p.disconnect()
 
