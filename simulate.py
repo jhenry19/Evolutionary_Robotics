@@ -9,9 +9,16 @@ import matplotlib.pyplot as mat
 import random as rand
 
 SIMULATION_STEPS = 1000
-amplitude = math.pi / 4.0
-frequency = 10
-phaseOffset = 0
+
+###
+# Moving robot with sin function
+###
+backAmplitude = math.pi / 4.0
+backFrequency = 10
+backPhaseOffset = 0
+frontAmplitude = math.pi / 4.0
+frontFrequency = 10
+frontPhaseOffset = numpy.pi/4
 
 physicsClient = p.connect(p.GUI)
 p.setAdditionalSearchPath(pybullet_data.getDataPath())  # gets custom pybullet shapes for easier use
@@ -27,16 +34,14 @@ backLegSensorValues = numpy.zeros(SIMULATION_STEPS)
 frontLegSensorValues = numpy.zeros(SIMULATION_STEPS)
 
 # Create sin array
-targetAngles = numpy.zeros(SIMULATION_STEPS)
-functionFrequency = frequency / (SIMULATION_STEPS / 20 * math.pi)
+backTargetAngles = numpy.zeros(SIMULATION_STEPS)
+frontTargetAngles = numpy.zeros(SIMULATION_STEPS)
 for i in range(SIMULATION_STEPS):
-    targetAngles[i] = amplitude * numpy.sin(functionFrequency * i + phaseOffset)
+    backTargetAngles[i] = backAmplitude * numpy.sin(backFrequency / (SIMULATION_STEPS / 20 * math.pi) * i + backPhaseOffset)
+    frontTargetAngles[i] = frontAmplitude * numpy.sin(frontFrequency / (SIMULATION_STEPS / 20 * math.pi) * i + frontPhaseOffset)
 
-numpy.save("data/SinGraph", targetAngles)
-
-mat.plot(targetAngles)
-mat.show()
-quit()
+# numpy.save("data/backTA", backTargetAngles)
+# numpy.save("data/frontTA", frontTargetAngles)
 
 for i in range(SIMULATION_STEPS):
     p.stepSimulation()
@@ -49,12 +54,12 @@ for i in range(SIMULATION_STEPS):
     pyrosim.Set_Motor_For_Joint(bodyIndex=robotId,
                                 jointName="Torso_BackLeg",
                                 controlMode=p.POSITION_CONTROL,
-                                targetPosition=targetAngles[i],
+                                targetPosition=backTargetAngles[i],
                                 maxForce=20)
     pyrosim.Set_Motor_For_Joint(bodyIndex=robotId,
                                 jointName="Torso_FrontLeg",
                                 controlMode=p.POSITION_CONTROL,
-                                targetPosition=targetAngles[i],
+                                targetPosition=frontTargetAngles[i],
                                 maxForce=20)
     t.sleep(1 / 60)
 p.disconnect()
