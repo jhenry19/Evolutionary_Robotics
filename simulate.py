@@ -8,6 +8,9 @@ import numpy
 import random as rand
 
 SIMULATION_STEPS = 100
+amplitude = math.pi / 4.0
+frequency = 1
+phaseOffset = 0
 
 physicsClient = p.connect(p.GUI)
 p.setAdditionalSearchPath(pybullet_data.getDataPath())  # gets custom pybullet shapes for easier use
@@ -26,9 +29,9 @@ frontLegSensorValues = numpy.zeros(SIMULATION_STEPS)
 targetAngles = numpy.zeros(SIMULATION_STEPS)
 x = numpy.linspace(0, 2 * numpy.pi, SIMULATION_STEPS)
 for i in range(len(x)):
-    targetAngles[i] = numpy.sin(x[i])
+    targetAngles[i] = numpy.sin(x[i]) * math.pi / 4.0
 
-numpy.save("data/SinGraph", targetAngles)
+# numpy.save("data/SinGraph", targetAngles)
 
 for i in range(SIMULATION_STEPS):
     p.stepSimulation()
@@ -41,13 +44,13 @@ for i in range(SIMULATION_STEPS):
     pyrosim.Set_Motor_For_Joint(bodyIndex=robotId,
                                 jointName="Torso_BackLeg",
                                 controlMode=p.POSITION_CONTROL,
-                                targetPosition=rand.uniform(-math.pi/2.0, math.pi/2.0),
-                                maxForce=30)
+                                targetPosition=targetAngles[i],
+                                maxForce=20)
     pyrosim.Set_Motor_For_Joint(bodyIndex=robotId,
                                 jointName="Torso_FrontLeg",
                                 controlMode=p.POSITION_CONTROL,
-                                targetPosition=rand.uniform(-math.pi/2.0, math.pi/2.0),
-                                maxForce=30)
+                                targetPosition=targetAngles[i],
+                                maxForce=20)
     t.sleep(1 / 60)
 p.disconnect()
 
