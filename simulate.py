@@ -7,6 +7,8 @@ import pyrosim.pyrosim as pyrosim
 import numpy
 import random as rand
 
+SIMULATION_STEPS = 100
+
 physicsClient = p.connect(p.GUI)
 p.setAdditionalSearchPath(pybullet_data.getDataPath())  # gets custom pybullet shapes for easier use
 
@@ -17,10 +19,18 @@ robotId = p.loadURDF("body.urdf")  # creates robot
 p.loadSDF("world.sdf")
 
 pyrosim.Prepare_To_Simulate(robotId)  # sets up sensors
-backLegSensorValues = numpy.zeros(100)
-frontLegSensorValues = numpy.zeros(100)
+backLegSensorValues = numpy.zeros(SIMULATION_STEPS)
+frontLegSensorValues = numpy.zeros(SIMULATION_STEPS)
 
-for i in range(100):
+# Create sin array
+targetAngles = numpy.zeros(SIMULATION_STEPS)
+x = numpy.linspace(0, 2 * numpy.pi, SIMULATION_STEPS)
+for i in range(len(x)):
+    targetAngles[i] = numpy.sin(x[i])
+
+numpy.save("data/SinGraph", targetAngles)
+
+for i in range(SIMULATION_STEPS):
     p.stepSimulation()
 
     # Store sensor values
