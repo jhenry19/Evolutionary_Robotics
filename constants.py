@@ -3,7 +3,7 @@ import math
 
 
 # Environment
-SIMULATION_STEPS = 1000
+SIMULATION_STEPS = 100
 GRAVITY = -9.8
 SLEEP_INCREMENT = 1/60
 

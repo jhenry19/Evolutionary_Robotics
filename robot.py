@@ -1,19 +1,30 @@
 from sensor import SENSOR
 from motor import MOTOR
 import pybullet as p
+import pyrosim.pyrosim as pyrosim
 
 
 class ROBOT:
-    robotId = 0
+
+    def PrepareToSense(self):
+        self.sensors = {}
+        for linkName in pyrosim.linkNamesToIndices:
+            self.sensors[linkName] = SENSOR(linkName)
+
+        self.t = 0  # time step counter
+
+    def Sense(self):
+        for linkName in pyrosim.linkNamesToIndices:
+            self.sensors[linkName].Get_Values(self.t)
+
+        self.t += 1  # increment the time step counter
 
     def __init__(self, s=2, m=2):
         # Initialize sensors and motors
-        self.sensors = []
-        self.motors = []
-        for i in range(s):
-            self.sensors.append(SENSOR())
-        for i in range(m):
-            self.motors.append(MOTOR())
+
+        self.motors = {}
 
         self.robotId = p.loadURDF("body.urdf")  # creates robot
 
+        pyrosim.Prepare_To_Simulate(self.robotId)  # sets up sensors
+        self.PrepareToSense()
