@@ -10,7 +10,7 @@ class SENSOR:
         if t == c.SIMULATION_STEPS - 1:
             print(self.values)
 
-    def __init__(self, linkName=""):
+    def __init__(self, linkName):
         self.linkName = linkName
 
         self.values = numpy.zeros(c.SIMULATION_STEPS)

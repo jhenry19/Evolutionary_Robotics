@@ -19,6 +19,11 @@ class ROBOT:
 
         self.t += 1  # increment the time step counter
 
+    def PrepareToAct(self):
+        self.motors = {}
+        for jointName in pyrosim.jointNamesToIndices:
+            self.motors[jointName] = MOTOR(jointName)
+
     def __init__(self, s=2, m=2):
         # Initialize sensors and motors
 
