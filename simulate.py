@@ -4,25 +4,6 @@ from simulation import SIMULATION
 simulation = SIMULATION()
 
 
-
-# import constants as c
-#
-# import pybullet as p
-# import time as t
-# import pybullet_data
-# import pyrosim.pyrosim as pyrosim
-# import numpy
-#
-# physicsClient = p.connect(p.GUI)
-# p.setAdditionalSearchPath(pybullet_data.getDataPath())  # gets custom pybullet shapes for easier use
-#
-# p.setGravity(0, 0, c.GRAVITY)  # set gravity
-#
-# planeId = p.loadURDF("plane.urdf")  # loads floor
-# robotId = p.loadURDF("body.urdf")  # creates robot
-# p.loadSDF("world.sdf")
-#
-# pyrosim.Prepare_To_Simulate(robotId)  # sets up sensors
 # backLegSensorValues = numpy.zeros(c.SIMULATION_STEPS)
 # frontLegSensorValues = numpy.zeros(c.SIMULATION_STEPS)
 #

@@ -1,3 +1,7 @@
+import pybullet as p
+
 class WORLD:
     def __init__(self):
-        pass
+        self.planeId = p.loadURDF("plane.urdf")  # loads floor
+        p.loadSDF("world.sdf")
+
