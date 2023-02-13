@@ -1,3 +1,10 @@
+from simulation import SIMULATION
+
+
+simulation = SIMULATION()
+
+
+
 # import constants as c
 #
 # import pybullet as p
@@ -49,4 +56,3 @@
 #
 # numpy.save("data/BackLegData", backLegSensorValues)
 # numpy.save("data/FrontLegData", frontLegSensorValues)
-pass
