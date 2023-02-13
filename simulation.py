@@ -28,17 +28,6 @@ class SIMULATION:
             ROBOT.Sense(self.robot)
             #
             #
-            #     # Motor
-            #     pyrosim.Set_Motor_For_Joint(bodyIndex=robotId,
-            #                                 jointName="Torso_BackLeg",
-            #                                 controlMode=p.POSITION_CONTROL,
-            #                                 targetPosition=backTargetAngles[i],
-            #                                 maxForce=c.MAX_FORCE)
-            #     pyrosim.Set_Motor_For_Joint(bodyIndex=robotId,
-            #                                 jointName="Torso_FrontLeg",
-            #                                 controlMode=p.POSITION_CONTROL,
-            #                                 targetPosition=frontTargetAngles[i],
-            #                                 maxForce=c.MAX_FORCE)
             t.sleep(c.SLEEP_INCREMENT)
 
         # Destructor
