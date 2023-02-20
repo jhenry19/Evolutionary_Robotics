@@ -18,8 +18,6 @@ class ROBOT:
         for linkName in pyrosim.linkNamesToIndices:
             self.sensors[linkName].Get_Values(self.t)
 
-        self.t += 1  # increment the time step counter
-
     def PrepareToAct(self):
         self.motors = {}
         for jointName in pyrosim.jointNamesToIndices:
@@ -27,19 +25,9 @@ class ROBOT:
 
     def Act(self):
         for jointName in pyrosim.jointNamesToIndices:
-            self.motors[jointName].Set_Values()
+            self.motors[jointName].Set_Values(self.robotId, self.t)
 
-
-
-
-
-        # backTargetAngles = numpy.zeros(c.SIMULATION_STEPS)
-        # frontTargetAngles = numpy.zeros(c.SIMULATION_STEPS)
-        # for i in range(c.SIMULATION_STEPS):
-        #     backTargetAngles[i] = c.BACK_AMPLITUDE * numpy.sin(
-        #         c.BACK_FREQUENCY / c.SIN_DIVISOR * i + c.BACK_PHASE_OFFSET)
-        #     frontTargetAngles[i] = c.FRONT_AMPLITUDE * numpy.sin(
-        #         c.FRONT_FREQUENCY / c.SIN_DIVISOR * i + c.FRONT_PHASE_OFFSET)
+        self.t += 1  # increment the time step counter
 
     def __init__(self, s=2, m=2):
         # Initialize sensors and motors

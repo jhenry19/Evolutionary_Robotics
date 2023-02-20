@@ -1,4 +1,3 @@
-
 import constants as c
 
 import pybullet as p
@@ -8,7 +7,6 @@ import pyrosim.pyrosim as pyrosim
 import numpy
 from world import WORLD
 from robot import ROBOT
-
 
 
 class SIMULATION:
@@ -22,15 +20,13 @@ class SIMULATION:
         self.robot = ROBOT()
 
     def Run(self):
-
         for i in range(c.SIMULATION_STEPS):
             p.stepSimulation()
             ROBOT.Sense(self.robot)
             ROBOT.Act(self.robot)
-            #
-            #
+
             t.sleep(c.SLEEP_INCREMENT)
 
         # Destructor
-        def __del__(self):
+        def __del__():
             p.disconnect()
