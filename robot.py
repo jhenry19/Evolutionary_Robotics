@@ -2,6 +2,7 @@ from sensor import SENSOR
 from motor import MOTOR
 import pybullet as p
 import pyrosim.pyrosim as pyrosim
+import constants as c
 
 
 class ROBOT:
@@ -24,6 +25,22 @@ class ROBOT:
         for jointName in pyrosim.jointNamesToIndices:
             self.motors[jointName] = MOTOR(jointName)
 
+    def Act(self):
+        for jointName in pyrosim.jointNamesToIndices:
+            self.motors[jointName].Set_Values()
+
+
+
+
+
+        # backTargetAngles = numpy.zeros(c.SIMULATION_STEPS)
+        # frontTargetAngles = numpy.zeros(c.SIMULATION_STEPS)
+        # for i in range(c.SIMULATION_STEPS):
+        #     backTargetAngles[i] = c.BACK_AMPLITUDE * numpy.sin(
+        #         c.BACK_FREQUENCY / c.SIN_DIVISOR * i + c.BACK_PHASE_OFFSET)
+        #     frontTargetAngles[i] = c.FRONT_AMPLITUDE * numpy.sin(
+        #         c.FRONT_FREQUENCY / c.SIN_DIVISOR * i + c.FRONT_PHASE_OFFSET)
+
     def __init__(self, s=2, m=2):
         # Initialize sensors and motors
 
@@ -33,3 +50,4 @@ class ROBOT:
 
         pyrosim.Prepare_To_Simulate(self.robotId)  # sets up sensors
         self.PrepareToSense()
+        self.PrepareToAct()
