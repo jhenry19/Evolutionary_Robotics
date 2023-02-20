@@ -1,5 +1,6 @@
 import numpy
 import matplotlib.pyplot as mat
+import constants as c
 
 
 def plotLegData():
@@ -14,11 +15,14 @@ def plotLegData():
 
 
 def plotSin():
-    sin = numpy.load("data/SinGraph.npy")
+    motorValues = numpy.empty(c.SIMULATION_STEPS)
 
-    mat.plot(sin)
+    for i in range(c.SIMULATION_STEPS):
+        motorValues[i] = c.FRONT_AMPLITUDE * numpy.sin(c.FRONT_FREQUENCY / c.SIN_DIVISOR * i + c.FRONT_PHASE_OFFSET)
+
+    mat.plot(motorValues)
 
     mat.show()
 
 
-plotLegData()
+plotSin()

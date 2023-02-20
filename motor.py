@@ -12,11 +12,12 @@ class MOTOR:
                                     targetPosition=self.motorValues[t],
                                     maxForce=c.MAX_FORCE)
 
+    def Save_Values(self):
+        numpy.save("data/" + self.jointName, self.motorValues)
+
     def Prepare_To_Act(self):
         for i in range(c.SIMULATION_STEPS):
             self.motorValues[i] = self.amplitude * numpy.sin(self.frequency / c.SIN_DIVISOR * i + self.offset)
-
-        print(self.motorValues)
 
     def __init__(self, jointName):
         self.jointName = jointName
