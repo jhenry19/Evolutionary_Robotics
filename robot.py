@@ -25,6 +25,10 @@ class ROBOT:
             self.motors[jointName] = MOTOR(jointName)
 
     def Act(self):
+        for neuronName in self.nn.Get_Neuron_Names():
+            if self.nn.Is_Motor_Neuron(neuronName):
+                print(neuronName)
+
         for jointName in pyrosim.jointNamesToIndices:
             self.motors[jointName].Set_Values(self.robotId, self.t)
 
@@ -32,7 +36,7 @@ class ROBOT:
 
     def Think(self):
         self.nn.Update()
-        self.nn.Print()
+        # self.nn.Print()
 
     def __init__(self, s=2, m=2):
         # Initialize sensors and motors
