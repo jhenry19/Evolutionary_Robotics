@@ -2,14 +2,14 @@ import numpy
 import math
 
 # Environment
-SIMULATION_STEPS = 100
-GRAVITY = -15
-# GRAVITY = -9.8
+SIMULATION_STEPS = 1000
+# GRAVITY = -15
+GRAVITY = -9.8
 SLEEP_INCREMENT = 1 / 60
 
 # Joints
 
-MAX_FORCE = 50
+MAX_FORCE = 10
 
 # Movements
 BACK_AMPLITUDE = math.pi / 4.0
