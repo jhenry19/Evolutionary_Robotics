@@ -2,6 +2,7 @@ from sensor import SENSOR
 from motor import MOTOR
 import pybullet as p
 import pyrosim.pyrosim as pyrosim
+from pyrosim.neuralNetwork import NEURAL_NETWORK
 import constants as c
 
 
@@ -29,13 +30,16 @@ class ROBOT:
 
         self.t += 1  # increment the time step counter
 
+    def Think(self):
+        self.nn.Print()
+
     def __init__(self, s=2, m=2):
         # Initialize sensors and motors
-
         self.motors = {}
-
         self.robotId = p.loadURDF("body.urdf")  # creates robot
 
         pyrosim.Prepare_To_Simulate(self.robotId)  # sets up sensors
         self.PrepareToSense()
         self.PrepareToAct()
+
+        self.nn = NEURAL_NETWORK("brain.nndf")

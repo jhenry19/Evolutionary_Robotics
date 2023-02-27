@@ -24,6 +24,7 @@ class SIMULATION:
         for i in range(c.SIMULATION_STEPS):
             p.stepSimulation()
             ROBOT.Sense(self.robot)
+            ROBOT.Think(self.robot)
             ROBOT.Act(self.robot)
 
             t.sleep(c.SLEEP_INCREMENT)
