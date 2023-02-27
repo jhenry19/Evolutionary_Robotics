@@ -5,11 +5,11 @@ import constants as c
 
 
 class MOTOR:
-    def Set_Values(self, robot, t):
+    def Set_Values(self, robot, desiredAngle):
         pyrosim.Set_Motor_For_Joint(bodyIndex=robot,
                                     jointName=self.jointName,
                                     controlMode=p.POSITION_CONTROL,
-                                    targetPosition=self.motorValues[t],
+                                    targetPosition=desiredAngle,
                                     maxForce=c.MAX_FORCE)
 
     def Save_Values(self):
