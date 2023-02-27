@@ -12,19 +12,6 @@ class MOTOR:
                                     targetPosition=desiredAngle,
                                     maxForce=c.MAX_FORCE)
 
-    def Save_Values(self):
-        numpy.save("data/" + self.jointName, self.motorValues)
-
-    def Prepare_To_Act(self):
-        self.amplitude = c.FRONT_AMPLITUDE
-        if self.jointName == "Torso_BackLeg":
-            self.frequency = c.FRONT_FREQUENCY / 2.0
-        else:
-            self.frequency = c.FRONT_FREQUENCY
-        self.offset = c.FRONT_PHASE_OFFSET
-        for i in range(c.SIMULATION_STEPS):
-            self.motorValues[i] = self.amplitude * numpy.sin(self.frequency / c.SIN_DIVISOR * i + self.offset)
-
     def __init__(self, jointName):
         self.jointName = jointName
 
@@ -33,5 +20,3 @@ class MOTOR:
         self.frequency = 0
         self.amplitude = 0
         self.motorValues = numpy.zeros(c.SIMULATION_STEPS)
-
-        self.Prepare_To_Act()

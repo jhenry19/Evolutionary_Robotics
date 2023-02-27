@@ -30,9 +30,6 @@ class ROBOT:
                 jointName = self.nn.Get_Motor_Neurons_Joint(neuronName)
                 desiredAngle = self.nn.Get_Value_Of(neuronName)
                 self.motors[jointName].Set_Values(self.robotId, desiredAngle)
-                print(neuronName, ": ", jointName, ": ", desiredAngle)
-
-        # for jointName in pyrosim.jointNamesToIndices:
 
         self.t += 1  # increment the time step counter
 
