@@ -99,3 +99,8 @@ class NEURAL_NETWORK:
                 self.neurons[neuronName].Print()
 
         print("")
+
+    def Update(self):
+        for neuronName in sorted(self.neurons):
+            print(neuronName)
+

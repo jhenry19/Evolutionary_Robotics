@@ -31,6 +31,7 @@ class ROBOT:
         self.t += 1  # increment the time step counter
 
     def Think(self):
+        self.nn.Update()
         self.nn.Print()
 
     def __init__(self, s=2, m=2):
