@@ -9,7 +9,7 @@ SLEEP_INCREMENT = 1 / 60
 
 # Joints
 
-MAX_FORCE = 25
+MAX_FORCE = 55
 
 # Movements
 BACK_AMPLITUDE = math.pi / 4.0
