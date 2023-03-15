@@ -1,6 +1,7 @@
 import numpy as np
 import pyrosim.pyrosim as pyrosim
 import constants as c
+import os
 
 
 class SOLUTION:
@@ -49,6 +50,7 @@ class SOLUTION:
         self.Create_World()
         self.Create_Body()
         self.Create_Brain()
+        os.system("python3 simulate.py")
 
     def __init__(self):
         self.weights = np.array(
