@@ -52,6 +52,11 @@ class SOLUTION:
         self.Create_Brain()
         os.system("python3 simulate.py")
 
+        # Read in fitness value from txt
+        f = open("fitness.txt", "r")
+        self.fitness = float(f.read())
+        f.close
+
     def __init__(self):
         self.weights = np.array(
             [np.array([np.random.rand(), np.random.rand()]), np.array([np.random.rand(), np.random.rand()]),

@@ -32,3 +32,6 @@ class SIMULATION:
         # Destructor
         def __del__():
             p.disconnect()
+
+    def Get_Fitness(self):
+        self.robot.Get_Fitness()
