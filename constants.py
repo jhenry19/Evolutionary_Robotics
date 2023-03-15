@@ -7,8 +7,12 @@ SIMULATION_STEPS = 200
 GRAVITY = -9.8
 SLEEP_INCREMENT = 1 / 60
 
-# Joints
+# BODY
+length = 1
+width = 1
+height = 1
 
+# Joints
 MAX_FORCE = 30
 
 # Movements
