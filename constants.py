@@ -2,13 +2,18 @@ import numpy
 import math
 
 # Environment
-SIMULATION_STEPS = 200
+SIMULATION_STEPS = 500
+NUMBER_OF_GENERATIONS = 10
 # GRAVITY = -15
 GRAVITY = -9.8
-SLEEP_INCREMENT = 1 / 60
+SLEEP_INCREMENT = 1 / 600
+
+# BODY
+length = 1
+width = 1
+height = 1
 
 # Joints
-
 MAX_FORCE = 30
 
 # Movements
