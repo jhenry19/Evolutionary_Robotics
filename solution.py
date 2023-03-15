@@ -47,16 +47,16 @@ class SOLUTION:
 
         pyrosim.End()
 
-    def Evaluate(self):
+    def Evaluate(self, display):
         self.Create_World()
         self.Create_Body()
         self.Create_Brain()
-        os.system("python3 simulate.py")
+        os.system("python3 simulate.py " + display)
 
         # Read in fitness value from txt
         f = open("fitness.txt", "r")
         self.fitness = float(f.read())
-        f.close
+        f.close()
 
     def Mutate(self):
         randomRow = random.randint(0, 2)
@@ -68,4 +68,5 @@ class SOLUTION:
             [np.array([np.random.rand(), np.random.rand()]), np.array([np.random.rand(), np.random.rand()]),
              np.array([np.random.rand(), np.random.rand()])])
         self.weights = self.weights * 2 - 1
+        self.fitness = None
 

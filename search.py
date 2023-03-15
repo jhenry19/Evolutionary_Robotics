@@ -7,4 +7,5 @@ import hillclimber
 
 hc = hillclimber.HILL_ClIMBER()
 hc.Evolve()
+hc.Show_Best()
 
