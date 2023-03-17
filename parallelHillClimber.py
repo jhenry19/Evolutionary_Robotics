@@ -29,13 +29,14 @@ class PARALLEL_HILL_ClIMBER:
         self.Spawn()
         self.Mutate()
         self.Evaluate(self.children)
-        exit()
-        # self.Print()
-        # self.Select()
-
+        self.Print()
+        self.Select()
 
     def Print(self):
-        print("\n\nparent:", self.parent.fitness, "--- child:", self.child.fitness, "\n\n")
+        print("\n")
+        for i in range(c.POPULATION_SIZE):
+            print("parent:", self.parents[i].fitness, "--- child:", self.children[i].fitness)
+        print("\n")
 
     def Spawn(self):
         self.children = {}
@@ -50,17 +51,24 @@ class PARALLEL_HILL_ClIMBER:
 
     def Evaluate(self, solutions):
         for i in range(c.POPULATION_SIZE):
-            solutions[i].Start_Simulation("GUI")
+            solutions[i].Start_Simulation("DIRECT")
         for i in range(c.POPULATION_SIZE):
             solutions[i].Wait_For_Simulation_To_End()
 
     def Select(self):
-        if self.child.fitness < self.parent.fitness:
-            self.parent = self.child
+        for i in range(c.POPULATION_SIZE):
+            if self.children[i].fitness < self.parents[i].fitness:
+                self.parents[i] = self.children[i]
 
     def Show_Best(self):
-        pass
-        # self.parent.Evaluate("GUI")
+        lowestScore = 99999.9
+        lowestIndex = -1
+        for i in range(c.POPULATION_SIZE):
+            if self.parents[i].fitness < lowestScore:
+                lowestScore = self.parents[i].fitness
+                lowestIndex = i
+
+        self.parents[lowestIndex].Start_Simulation("GUI")
 
 
 

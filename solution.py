@@ -54,12 +54,6 @@ class SOLUTION:
             for currentColumn in range(len(motors)):
                 pyrosim.Send_Synapse(sourceNeuronName=currentRow, targetNeuronName=currentColumn + 3,
                                      weight=self.weights[currentRow][currentColumn])
-
-        # pyrosim.Send_Synapse(sourceNeuronName=2, targetNeuronName=3, weight=-1.0)
-        # pyrosim.Send_Synapse(sourceNeuronName=1, targetNeuronName=3, weight=0.25)
-        # pyrosim.Send_Synapse(sourceNeuronName=2, targetNeuronName=4, weight=0.25)
-        # pyrosim.Send_Synapse(sourceNeuronName=1, targetNeuronName=4, weight=-1.0)
-
         pyrosim.End()
 
     def Start_Simulation(self, directOrGUI):
@@ -77,8 +71,6 @@ class SOLUTION:
         f = open(fitnessFileName, "r")
         self.fitness = float(f.read())
         f.close()
-
-        os.system("rm " + fitnessFileName)
 
     def Mutate(self):
         randomRow = random.randint(0, 2)
