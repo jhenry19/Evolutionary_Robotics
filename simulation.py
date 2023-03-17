@@ -10,7 +10,7 @@ from robot import ROBOT
 
 
 class SIMULATION:
-    def __init__(self, directOrGui):
+    def __init__(self, directOrGui, myID):
         self.directOrGui = directOrGui
         if directOrGui == "DIRECT":
             self.physicsClient = p.connect(p.DIRECT)  # p.GUI to visualize
@@ -22,7 +22,7 @@ class SIMULATION:
         p.setGravity(0, 0, c.GRAVITY)  # set gravity
 
         self.world = WORLD()
-        self.robot = ROBOT()
+        self.robot = ROBOT(myID)
 
     def Run(self):
         for i in range(c.SIMULATION_STEPS):

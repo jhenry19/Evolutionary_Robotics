@@ -3,8 +3,7 @@ from motor import MOTOR
 import pybullet as p
 import pyrosim.pyrosim as pyrosim
 from pyrosim.neuralNetwork import NEURAL_NETWORK
-import constants as c
-
+import os
 
 class ROBOT:
 
@@ -48,7 +47,7 @@ class ROBOT:
 
         exit()
 
-    def __init__(self, s=2, m=2):
+    def __init__(self, myID):
         # Initialize sensors and motors
         self.motors = {}
         self.robotId = p.loadURDF("body.urdf")  # creates robot
@@ -57,4 +56,5 @@ class ROBOT:
         self.PrepareToSense()
         self.PrepareToAct()
 
-        self.nn = NEURAL_NETWORK("brain.nndf")
+        self.nn = NEURAL_NETWORK("brain" + str(myID) + ".nndf")
+        os.system("rm brain" + str(myID) + ".nndf")
