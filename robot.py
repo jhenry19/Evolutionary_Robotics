@@ -41,9 +41,16 @@ class ROBOT:
         positionOfLinkZero = stateOfLinkZero[0]
         xCoordinateOfLinkZero = positionOfLinkZero[0]
 
-        f = open("fitness.txt", "w")
+        # Due to threading, temp file is used for writing and then copied to a final fitness file
+        f = open("tmp" + str(self.myID) + ".txt", "w")
         f.write(str(xCoordinateOfLinkZero))
         f.close()
+
+        os.system("mv tmp" + str(self.myID) + ".txt fitness" + str(self.myID) + ".txt")
+
+        # f = open("fitness" + str(self.myID) + ".txt", "w")
+        # f.write(str(xCoordinateOfLinkZero))
+        # f.close()
 
         exit()
 
@@ -56,5 +63,7 @@ class ROBOT:
         self.PrepareToSense()
         self.PrepareToAct()
 
-        self.nn = NEURAL_NETWORK("brain" + str(myID) + ".nndf")
+        self.myID = myID
+
+        self.nn = NEURAL_NETWORK("brain" + str(self.myID) + ".nndf")
         os.system("rm brain" + str(myID) + ".nndf")
