@@ -11,6 +11,7 @@ from robot import ROBOT
 
 class SIMULATION:
     def __init__(self, directOrGui):
+        self.directOrGui = directOrGui
         if directOrGui == "DIRECT":
             self.physicsClient = p.connect(p.DIRECT)  # p.GUI to visualize
         else:
@@ -30,7 +31,8 @@ class SIMULATION:
             ROBOT.Think(self.robot)
             ROBOT.Act(self.robot)
 
-            t.sleep(c.SLEEP_INCREMENT)
+            if self.directOrGuit == "GUI":
+                t.sleep(c.SLEEP_INCREMENT)
 
         # Destructor
         def __del__():
