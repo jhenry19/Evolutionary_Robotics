@@ -47,11 +47,11 @@ class SOLUTION:
 
         pyrosim.End()
 
-    def Evaluate(self, display):
+    def Evaluate(self, directOrGUI):
         self.Create_World()
         self.Create_Body()
         self.Create_Brain()
-        os.system("python3 simulate.py " + display)
+        os.system("python3 simulate.py " + directOrGUI + " &")
 
         # Read in fitness value from txt
         f = open("fitness.txt", "r")

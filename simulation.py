@@ -31,7 +31,7 @@ class SIMULATION:
             ROBOT.Think(self.robot)
             ROBOT.Act(self.robot)
 
-            if self.directOrGuit == "GUI":
+            if self.directOrGui == "GUI":
                 t.sleep(c.SLEEP_INCREMENT)
 
         # Destructor
