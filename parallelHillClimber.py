@@ -9,8 +9,10 @@ class PARALLEL_HILL_ClIMBER:
 
     def __init__(self):
         self.parents = {}
+        self.nextAvailableID = 0
         for i in range(c.POPULATION_SIZE):
-            self.parents[i] = solution.SOLUTION()
+            self.parents[i] = solution.SOLUTION(self.nextAvailableID)
+            self.nextAvailableID += 1
 
     def Evolve(self):
         for i in range(c.POPULATION_SIZE):

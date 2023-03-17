@@ -6,6 +6,18 @@ import random
 
 
 class SOLUTION:
+    def __init__(self, id):
+        self.weights = np.array(
+            [np.array([np.random.rand(), np.random.rand()]), np.array([np.random.rand(), np.random.rand()]),
+             np.array([np.random.rand(), np.random.rand()])])
+        self.weights = self.weights * 2 - 1
+        self.fitness = None
+
+        self.myID = id
+
+    def Set_ID(self, id):
+        self.myID = id
+
     def Create_World(self):
         pyrosim.Start_SDF("world.sdf")
         pyrosim.End()
@@ -22,8 +34,10 @@ class SOLUTION:
         pyrosim.End()
 
     def Create_Brain(self):
-        pyrosim.Start_NeuralNetwork("brain.nndf")
+        pyrosim.Start_NeuralNetwork("brain" + str(self.myID) + ".nndf")
+
         # Sensor Neurons
+        # noinspection DuplicatedCode
         pyrosim.Send_Sensor_Neuron(name=0, linkName="Torso")
         pyrosim.Send_Sensor_Neuron(name=1, linkName="BackLeg")
         pyrosim.Send_Sensor_Neuron(name=2, linkName="FrontLeg")
@@ -63,10 +77,5 @@ class SOLUTION:
         randomColumn = random.randint(0, 1)
         self.weights[randomRow, randomColumn] = random.random() * 2 - 1
 
-    def __init__(self):
-        self.weights = np.array(
-            [np.array([np.random.rand(), np.random.rand()]), np.array([np.random.rand(), np.random.rand()]),
-             np.array([np.random.rand(), np.random.rand()])])
-        self.weights = self.weights * 2 - 1
-        self.fitness = None
+
 
