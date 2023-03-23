@@ -9,7 +9,7 @@ class PARALLEL_HILL_ClIMBER:
     def __init__(self):
         # Removes all temporary files at startup
         os.system("rm brain*.nndf")
-        os.system("rm fitness*.nndf")
+        os.system("rm fitness*.txt")
 
         self.parents = {}
         self.nextAvailableID = 0
