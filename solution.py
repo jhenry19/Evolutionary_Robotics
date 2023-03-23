@@ -83,12 +83,14 @@ class SOLUTION:
     def Create_Brain(self):
         pyrosim.Start_NeuralNetwork("brain" + str(self.myID) + ".nndf")
 
-        sensors = ["Torso", "BackLeg", "FrontLeg", "LeftLeg", "RightLeg", "FrontLowerLeg"]
+        sensors = ["Torso", "BackLeg", "FrontLeg", "LeftLeg", "RightLeg",
+                   "FrontLowerLeg", "BackLowerLeg", "LeftLowerLeg", "RightLowerLeg"]
         for i in range(len(sensors)):
             pyrosim.Send_Sensor_Neuron(name=i, linkName=sensors[i])
 
         # Motor Neurons
-        motors = ["Torso_BackLeg", "Torso_FrontLeg", "Torso_LeftLeg", "Torso_RightLeg", "FrontLeg_FrontLowerLeg"]
+        motors = ["Torso_BackLeg", "Torso_FrontLeg", "Torso_LeftLeg", "Torso_RightLeg",
+                  "FrontLeg_FrontLowerLeg", "BackLeg_BackLowerLeg", "LeftLeg_LeftLowerLeg", "RightLeg_RightLowerLeg"]
         for i in range(len(motors)):
             pyrosim.Send_Motor_Neuron(name=(i + c.numSensorNeurons), jointName=motors[i])
 

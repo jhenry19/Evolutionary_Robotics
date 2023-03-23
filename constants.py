@@ -13,8 +13,8 @@ SLEEP_INCREMENT = 1 / 200
 length = 1
 width = 1
 height = 1
-numSensorNeurons = 6
-numMotorNeurons = 5
+numSensorNeurons = 9
+numMotorNeurons = 8
 
 # Joints
 MAX_FORCE = 50
