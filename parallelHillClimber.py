@@ -33,7 +33,6 @@ class PARALLEL_HILL_ClIMBER:
         self.Select()
 
     def Print(self):
-        print("\n")
         for i in range(c.POPULATION_SIZE):
             print("parent:", self.parents[i].fitness, "--- child:", self.children[i].fitness)
         print("\n")
