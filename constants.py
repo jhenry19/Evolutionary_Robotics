@@ -13,11 +13,11 @@ SLEEP_INCREMENT = 1 / 200
 length = 1
 width = 1
 height = 1
-numSensorNeurons = 3
-numMotorNeurons = 2
+numSensorNeurons = 5
+numMotorNeurons = 4
 
 # Joints
-MAX_FORCE = 30
+MAX_FORCE = 15
 
 # Movements
 BACK_AMPLITUDE = math.pi / 4.0
