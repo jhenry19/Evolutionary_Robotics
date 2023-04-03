@@ -29,7 +29,7 @@ class ROBOT:
             if self.nn.Is_Motor_Neuron(neuronName):
                 jointName = self.nn.Get_Motor_Neurons_Joint(neuronName)
                 desiredAngle = self.nn.Get_Value_Of(neuronName) * c.motorJointRange
-                self.motors[jointName].Set_Values(self.robotId, desiredAngle)
+                self.motors[jointName].Set_Values(self.robot, desiredAngle)
 
         self.t += 1  # increment the time step counter
 
@@ -38,29 +38,28 @@ class ROBOT:
         # self.nn.Print()
 
     def Get_Fitness(self):
-        stateOfLinkZero = p.getLinkState(self.robotId, 0)
-        positionOfLinkZero = stateOfLinkZero[0]
-        xCoordinateOfLinkZero = positionOfLinkZero[0]
+        # stateOfLinkZero = p.getLinkState(self.robot, 0)
+        # positionOfLinkZero = stateOfLinkZero[0]
+        # xCoordinateOfLinkZero = positionOfLinkZero[0]
+
+        basePositionAndOrientation = p.getBasePositionAndOrientation(self.robot)
+        basePosition = basePositionAndOrientation[0]
+        xPosition = basePosition[0]
+
 
         # Due to threading, temp file is used for writing and then copied to a final fitness file
         f = open("tmp" + str(self.myID) + ".txt", "w")
-        f.write(str(xCoordinateOfLinkZero))
+        f.write(str(xPosition))
         f.close()
 
         os.system("mv tmp" + str(self.myID) + ".txt fitness" + str(self.myID) + ".txt")
 
-        # f = open("fitness" + str(self.myID) + ".txt", "w")
-        # f.write(str(xCoordinateOfLinkZero))
-        # f.close()
-
-        exit()
-
     def __init__(self, myID):
         # Initialize sensors and motors
         self.motors = {}
-        self.robotId = p.loadURDF("body.urdf")  # creates robot
+        self.robot = p.loadURDF("body.urdf")  # creates robot
 
-        pyrosim.Prepare_To_Simulate(self.robotId)  # sets up sensors
+        pyrosim.Prepare_To_Simulate(self.robot)  # sets up sensors
         self.PrepareToSense()
         self.PrepareToAct()
 
