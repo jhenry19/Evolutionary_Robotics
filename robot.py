@@ -3,8 +3,7 @@ from motor import MOTOR
 import pybullet as p
 import pyrosim.pyrosim as pyrosim
 from pyrosim.neuralNetwork import NEURAL_NETWORK
-import constants as c
-
+import os
 
 class ROBOT:
 
@@ -42,13 +41,20 @@ class ROBOT:
         positionOfLinkZero = stateOfLinkZero[0]
         xCoordinateOfLinkZero = positionOfLinkZero[0]
 
-        f = open("fitness.txt", "w")
+        # Due to threading, temp file is used for writing and then copied to a final fitness file
+        f = open("tmp" + str(self.myID) + ".txt", "w")
         f.write(str(xCoordinateOfLinkZero))
         f.close()
 
+        os.system("mv tmp" + str(self.myID) + ".txt fitness" + str(self.myID) + ".txt")
+
+        # f = open("fitness" + str(self.myID) + ".txt", "w")
+        # f.write(str(xCoordinateOfLinkZero))
+        # f.close()
+
         exit()
 
-    def __init__(self, s=2, m=2):
+    def __init__(self, myID):
         # Initialize sensors and motors
         self.motors = {}
         self.robotId = p.loadURDF("body.urdf")  # creates robot
@@ -57,4 +63,7 @@ class ROBOT:
         self.PrepareToSense()
         self.PrepareToAct()
 
-        self.nn = NEURAL_NETWORK("brain.nndf")
+        self.myID = myID
+
+        self.nn = NEURAL_NETWORK("brain" + str(self.myID) + ".nndf")
+        os.system("rm brain" + str(myID) + ".nndf")

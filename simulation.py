@@ -10,7 +10,8 @@ from robot import ROBOT
 
 
 class SIMULATION:
-    def __init__(self, directOrGui):
+    def __init__(self, directOrGui, myID):
+        self.directOrGui = directOrGui
         if directOrGui == "DIRECT":
             self.physicsClient = p.connect(p.DIRECT)  # p.GUI to visualize
         else:
@@ -21,7 +22,7 @@ class SIMULATION:
         p.setGravity(0, 0, c.GRAVITY)  # set gravity
 
         self.world = WORLD()
-        self.robot = ROBOT()
+        self.robot = ROBOT(myID)
 
     def Run(self):
         for i in range(c.SIMULATION_STEPS):
@@ -30,7 +31,8 @@ class SIMULATION:
             ROBOT.Think(self.robot)
             ROBOT.Act(self.robot)
 
-            t.sleep(c.SLEEP_INCREMENT)
+            if self.directOrGui == "GUI":
+                t.sleep(c.SLEEP_INCREMENT)
 
         # Destructor
         def __del__():
