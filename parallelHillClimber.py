@@ -9,7 +9,7 @@ class PARALLEL_HILL_ClIMBER:
     def __init__(self):
         # Removes all temporary files at startup
         os.system("rm brain*.nndf")
-        os.system("rm fitness*.nndf")
+        os.system("rm fitness*.txt")
 
         self.parents = {}
         self.nextAvailableID = 0
@@ -33,7 +33,6 @@ class PARALLEL_HILL_ClIMBER:
         self.Select()
 
     def Print(self):
-        print("\n")
         for i in range(c.POPULATION_SIZE):
             print("parent:", self.parents[i].fitness, "--- child:", self.children[i].fitness)
         print("\n")
