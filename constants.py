@@ -17,6 +17,9 @@ numSensorNeurons = 9
 numMotorNeurons = 8
 motorJointRange = .2
 
+# BRAIN
+numHiddenNeurons = 1
+
 # Joints
 MAX_FORCE = 50
 
