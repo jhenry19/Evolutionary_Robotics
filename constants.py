@@ -15,13 +15,13 @@ width = 1
 height = 1
 numSensorNeurons = 9
 numMotorNeurons = 8
-motorJointRange = .7
+motorJointRange = .5
 
 # BRAIN
 numHiddenNeurons = 3
 
 # Joints
-MAX_FORCE = 50
+MAX_FORCE = 40
 
 # Movements
 BACK_AMPLITUDE = math.pi / 4.0
