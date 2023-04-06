@@ -1,11 +1,6 @@
 import os
-import hillclimber
 import parallelHillClimber
 import constants as c
-
-# for i in range(1):
-#     os.system("python3 generate.py")
-#     os.system("python3 simulate.py")
 
 phc = parallelHillClimber.PARALLEL_HILL_ClIMBER()
 phc.Evolve()

@@ -19,8 +19,6 @@ class SOLUTION:
 
         self.weights = np.array(arrayOfNumpyArrays)
 
-        # self.weights = np.array([np.array([np.random.rand(), np.random.rand()]), np.array([np.random.rand(), np.random.rand()]),
-        #      np.array([np.random.rand(), np.random.rand()])])
         self.weights = self.weights * 2 - 1
         self.fitness = None
 
@@ -114,6 +112,7 @@ class SOLUTION:
         #         pyrosim.Send_Synapse(sourceNeuronName=currentRow, targetNeuronName=currentColumn + c.numSensorNeurons,
         #                              weight=self.weights[currentRow][currentColumn])
         pyrosim.End()
+
 
     def Start_Simulation(self, directOrGUI):
         self.Create_World()

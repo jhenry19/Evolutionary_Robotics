@@ -15,10 +15,10 @@ width = 1
 height = 1
 numSensorNeurons = 9
 numMotorNeurons = 8
-motorJointRange = .2
+motorJointRange = .7
 
 # BRAIN
-numHiddenNeurons = 1
+numHiddenNeurons = 3
 
 # Joints
 MAX_FORCE = 50
