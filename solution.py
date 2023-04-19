@@ -121,6 +121,7 @@ class SOLUTION:
                                      weight=self.weights[otherHidden + c.numSensorNeurons][hidden])
 
         pyrosim.End()
+        exit()
 
     def Start_Simulation(self, directOrGUI):
         self.Create_World()

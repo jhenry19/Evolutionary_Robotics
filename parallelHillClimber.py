@@ -65,8 +65,6 @@ class PARALLEL_HILL_ClIMBER:
                 self.initialParentFitness[i] = self.parents[i].fitness
             self.firstGeneration = False
 
-
-
     def Select(self):
         for i in range(c.POPULATION_SIZE):
             if self.children[i].fitness < self.parents[i].fitness:
@@ -93,14 +91,7 @@ class PARALLEL_HILL_ClIMBER:
             sumOfImprovement += averageImprovement[i]
             averageImprovementPerGeneration[i] = averageImprovement[i] / c.NUMBER_OF_GENERATIONS
 
-
-
-
-
-
         averageImprovementForSimulation = sumOfImprovement / c.POPULATION_SIZE
-
-
 
         print(self.initialParentFitness)
         print(self.finalParentFitness)
