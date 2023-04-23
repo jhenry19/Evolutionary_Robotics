@@ -12,13 +12,20 @@ class SOLUTION:
         arrayOfNumpyArrays = []
         # Creates a matrix of height #sensors + #motors + #hidden and width #hidden. The last part of the matrix is
         # for the self connections of hidden neurons and only the first column is used
-        for i in range(c.numSensorNeurons + c.numMotorNeurons + c.numHiddenNeurons):
-            for j in range(c.numHiddenNeurons):
-                randomList.append(np.random.rand())
+        if c.numHiddenNeurons > 0:
+            for i in range(c.numSensorNeurons + c.numMotorNeurons + c.numHiddenNeurons):
+                for j in range(c.numHiddenNeurons):
+                    randomList.append(np.random.rand())
 
-            arrayOfNumpyArrays.append(np.array(randomList))
-            randomList.clear()
+                arrayOfNumpyArrays.append(np.array(randomList))
+                randomList.clear()
+        else:  # for no hidden neurons
+            for i in range(c.numSensorNeurons):
+                for j in range(c.numMotorNeurons):
+                    randomList.append(np.random.rand())
 
+                arrayOfNumpyArrays.append(np.array(randomList))
+                randomList.clear()
 
         self.weights = np.array(arrayOfNumpyArrays)
 
@@ -100,28 +107,34 @@ class SOLUTION:
             pyrosim.Send_Motor_Neuron(name=(i + c.numSensorNeurons + c.numHiddenNeurons), jointName=motors[i])
 
         # Synapses
-        hiddenNeuronOffset = c.numSensorNeurons
-        motorNeuronOffset = c.numSensorNeurons + c.numHiddenNeurons
-        for sensor in range(c.numSensorNeurons):
+        if (c.numHiddenNeurons > 0):
+            hiddenNeuronOffset = c.numSensorNeurons
+            motorNeuronOffset = c.numSensorNeurons + c.numHiddenNeurons
+            for sensor in range(c.numSensorNeurons):
+                for hidden in range(c.numHiddenNeurons):
+                    pyrosim.Send_Synapse(sourceNeuronName=sensor, targetNeuronName=hidden + hiddenNeuronOffset,
+                                         weight=self.weights[sensor][hidden])
+
             for hidden in range(c.numHiddenNeurons):
-                pyrosim.Send_Synapse(sourceNeuronName=sensor, targetNeuronName=hidden + hiddenNeuronOffset,
-                                     weight=self.weights[sensor][hidden])
+                for motor in range(c.numMotorNeurons):
+                    pyrosim.Send_Synapse(sourceNeuronName=hidden + hiddenNeuronOffset,
+                                         targetNeuronName=motor + motorNeuronOffset,
+                                         weight=self.weights[motor + c.numSensorNeurons][hidden])
 
-        for hidden in range(c.numHiddenNeurons):
-            for motor in range(c.numMotorNeurons):
-                pyrosim.Send_Synapse(sourceNeuronName=hidden + hiddenNeuronOffset,
-                                     targetNeuronName=motor + motorNeuronOffset,
-                                     weight=self.weights[motor + c.numSensorNeurons][hidden])
-
-        # Add self-connections to all hidden neurons
-        for hidden in range(c.numHiddenNeurons):
-            for otherHidden in range(c.numHiddenNeurons):
-                pyrosim.Send_Synapse(sourceNeuronName=hidden + hiddenNeuronOffset,
-                                     targetNeuronName=otherHidden + hiddenNeuronOffset,
-                                     weight=self.weights[otherHidden + c.numSensorNeurons][hidden])
+            # Add self-connections to all hidden neurons
+            for hidden in range(c.numHiddenNeurons):
+                for otherHidden in range(c.numHiddenNeurons):
+                    pyrosim.Send_Synapse(sourceNeuronName=hidden + hiddenNeuronOffset,
+                                         targetNeuronName=otherHidden + hiddenNeuronOffset,
+                                         weight=self.weights[otherHidden + c.numSensorNeurons][hidden])
+        else:  # for 0 hidden neurons
+            motorNeuronOffset = c.numSensorNeurons
+            for sensor in range(c.numSensorNeurons):
+                for motor in range(c.numMotorNeurons):
+                    pyrosim.Send_Synapse(sourceNeuronName=sensor, targetNeuronName=motor + motorNeuronOffset,
+                                         weight=self.weights[sensor][motor])
 
         pyrosim.End()
-        exit()
 
     def Start_Simulation(self, directOrGUI):
         self.Create_World()
@@ -140,8 +153,11 @@ class SOLUTION:
         f.close()
 
     def Mutate(self):
-        randomRow = random.randint(0, c.numSensorNeurons + c.numMotorNeurons + c.numHiddenNeurons - 1)
-
-        randomColumn = random.randint(0, c.numHiddenNeurons - 1)
+        if c.numHiddenNeurons > 0:
+            randomRow = random.randint(0, c.numSensorNeurons + c.numMotorNeurons + c.numHiddenNeurons - 1)
+            randomColumn = random.randint(0, c.numHiddenNeurons - 1)
+        else:  # for 0 hidden neurons
+            randomRow = random.randint(0, c.numSensorNeurons - 1)
+            randomColumn = random.randint(0, c.numMotorNeurons - 1)
 
         self.weights[randomRow, randomColumn] = random.random() * 2 - 1

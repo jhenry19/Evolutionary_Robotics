@@ -3,8 +3,8 @@ import math
 
 # Environment
 SIMULATION_STEPS = 500
-NUMBER_OF_GENERATIONS = 4
-POPULATION_SIZE = 3
+NUMBER_OF_GENERATIONS = 10
+POPULATION_SIZE = 7
 # GRAVITY = -15
 GRAVITY = -9.8
 SLEEP_INCREMENT = 1 / 200
@@ -18,7 +18,7 @@ numMotorNeurons = 8
 motorJointRange = .5
 
 # BRAIN
-numHiddenNeurons = 3
+numHiddenNeurons = 4
 
 # Joints
 MAX_FORCE = 40

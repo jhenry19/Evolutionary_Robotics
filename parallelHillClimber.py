@@ -2,6 +2,7 @@ import solution
 import constants as c
 import copy
 import os
+import numpy as np
 
 
 class PARALLEL_HILL_ClIMBER:
@@ -24,6 +25,10 @@ class PARALLEL_HILL_ClIMBER:
         self.initialParentFitness = {}
         self.finalParentFitness = {}
 
+        # For AB Testing
+        self.fitnessResults = np.zeros((c.POPULATION_SIZE, c.NUMBER_OF_GENERATIONS))
+        self.generationCount = 0
+
     def Evolve(self):
         self.Evaluate(self.parents)
 
@@ -36,6 +41,7 @@ class PARALLEL_HILL_ClIMBER:
         self.Evaluate(self.children)
         self.Print()
         self.Select()
+        self.generationCount += 1
 
     def Print(self):
         for i in range(c.POPULATION_SIZE):
@@ -58,12 +64,13 @@ class PARALLEL_HILL_ClIMBER:
             solutions[i].Start_Simulation("DIRECT")
         for i in range(c.POPULATION_SIZE):
             solutions[i].Wait_For_Simulation_To_End()
+            self.fitnessResults[i, self.generationCount] = solutions[i].fitness
 
-        # Records the fitness of the first generation of parents for analysis
-        if self.firstGeneration:
-            for i in range(c.POPULATION_SIZE):
-                self.initialParentFitness[i] = self.parents[i].fitness
-            self.firstGeneration = False
+        # # Records the fitness of the first generation of parents for analysis
+        # if self.firstGeneration:
+        #     for i in range(c.POPULATION_SIZE):
+        #         self.initialParentFitness[i] = self.parents[i].fitness
+        #     self.firstGeneration = False
 
     def Select(self):
         for i in range(c.POPULATION_SIZE):
@@ -79,6 +86,10 @@ class PARALLEL_HILL_ClIMBER:
                 lowestIndex = i
 
         self.parents[lowestIndex].Start_Simulation("GUI")
+
+    def SaveFitnesses(self):
+        filename = str(c.numHiddenNeurons) + "FitnessResults"
+        np.save(filename, self.fitnessResults)
 
     def analysis(self):
         averageImprovement = {}
@@ -98,8 +109,3 @@ class PARALLEL_HILL_ClIMBER:
         print(averageImprovement)
         print(averageImprovementPerGeneration)
         print(averageImprovementForSimulation)
-
-
-
-
-
