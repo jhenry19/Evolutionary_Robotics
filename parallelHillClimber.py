@@ -7,15 +7,17 @@ import numpy as np
 
 class PARALLEL_HILL_ClIMBER:
 
-    def __init__(self):
+    def __init__(self, numHiddenNeurons):
         # Removes all temporary files at startup
         os.system("rm brain*.nndf")
         os.system("rm fitness*.txt")
 
+        self.currentHiddenNeurons = numHiddenNeurons
+
         self.parents = {}
         self.nextAvailableID = 0
         for i in range(c.POPULATION_SIZE):
-            self.parents[i] = solution.SOLUTION(self.nextAvailableID)
+            self.parents[i] = solution.SOLUTION(self.nextAvailableID, self.currentHiddenNeurons)
             self.nextAvailableID += 1
 
         self.children = None
@@ -88,7 +90,7 @@ class PARALLEL_HILL_ClIMBER:
         self.parents[lowestIndex].Start_Simulation("GUI")
 
     def SaveFitnesses(self):
-        filename = str(c.numHiddenNeurons) + "FitnessResults"
+        filename = str(self.currentHiddenNeurons) + "FitnessResults"
         np.save(filename, self.fitnessResults)
 
     def analysis(self):

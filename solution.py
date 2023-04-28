@@ -7,14 +7,15 @@ import time
 
 
 class SOLUTION:
-    def __init__(self, id):
+    def __init__(self, id, numHiddenNeurons):
         randomList = []
         arrayOfNumpyArrays = []
+        self.numHiddenNeurons = numHiddenNeurons
         # Creates a matrix of height #sensors + #motors + #hidden and width #hidden. The last part of the matrix is
         # for the self connections of hidden neurons and only the first column is used
-        if c.numHiddenNeurons > 0:
-            for i in range(c.numSensorNeurons + c.numMotorNeurons + c.numHiddenNeurons):
-                for j in range(c.numHiddenNeurons):
+        if self.numHiddenNeurons > 0:
+            for i in range(c.numSensorNeurons + c.numMotorNeurons + self.numHiddenNeurons):
+                for j in range(self.numHiddenNeurons):
                     randomList.append(np.random.rand())
 
                 arrayOfNumpyArrays.append(np.array(randomList))
@@ -97,33 +98,33 @@ class SOLUTION:
             pyrosim.Send_Sensor_Neuron(name=i, linkName=sensors[i])
 
         # Hidden Neurons
-        for i in range(c.numHiddenNeurons):
+        for i in range(self.numHiddenNeurons):
             pyrosim.Send_Hidden_Neuron(name=len(sensors) + i)
 
         # Motor Neurons
         motors = ["Torso_BackLeg", "Torso_FrontLeg", "Torso_LeftLeg", "Torso_RightLeg",
                   "FrontLeg_FrontLowerLeg", "BackLeg_BackLowerLeg", "LeftLeg_LeftLowerLeg", "RightLeg_RightLowerLeg"]
         for i in range(len(motors)):
-            pyrosim.Send_Motor_Neuron(name=(i + c.numSensorNeurons + c.numHiddenNeurons), jointName=motors[i])
+            pyrosim.Send_Motor_Neuron(name=(i + c.numSensorNeurons + self.numHiddenNeurons), jointName=motors[i])
 
         # Synapses
-        if (c.numHiddenNeurons > 0):
+        if self.numHiddenNeurons > 0:
             hiddenNeuronOffset = c.numSensorNeurons
-            motorNeuronOffset = c.numSensorNeurons + c.numHiddenNeurons
+            motorNeuronOffset = c.numSensorNeurons + self.numHiddenNeurons
             for sensor in range(c.numSensorNeurons):
-                for hidden in range(c.numHiddenNeurons):
+                for hidden in range(self.numHiddenNeurons):
                     pyrosim.Send_Synapse(sourceNeuronName=sensor, targetNeuronName=hidden + hiddenNeuronOffset,
                                          weight=self.weights[sensor][hidden])
 
-            for hidden in range(c.numHiddenNeurons):
+            for hidden in range(self.numHiddenNeurons):
                 for motor in range(c.numMotorNeurons):
                     pyrosim.Send_Synapse(sourceNeuronName=hidden + hiddenNeuronOffset,
                                          targetNeuronName=motor + motorNeuronOffset,
                                          weight=self.weights[motor + c.numSensorNeurons][hidden])
 
             # Add self-connections to all hidden neurons
-            for hidden in range(c.numHiddenNeurons):
-                for otherHidden in range(c.numHiddenNeurons):
+            for hidden in range(self.numHiddenNeurons):
+                for otherHidden in range(self.numHiddenNeurons):
                     pyrosim.Send_Synapse(sourceNeuronName=hidden + hiddenNeuronOffset,
                                          targetNeuronName=otherHidden + hiddenNeuronOffset,
                                          weight=self.weights[otherHidden + c.numSensorNeurons][hidden])
@@ -153,9 +154,9 @@ class SOLUTION:
         f.close()
 
     def Mutate(self):
-        if c.numHiddenNeurons > 0:
-            randomRow = random.randint(0, c.numSensorNeurons + c.numMotorNeurons + c.numHiddenNeurons - 1)
-            randomColumn = random.randint(0, c.numHiddenNeurons - 1)
+        if self.numHiddenNeurons > 0:
+            randomRow = random.randint(0, c.numSensorNeurons + c.numMotorNeurons + self.numHiddenNeurons - 1)
+            randomColumn = random.randint(0, self.numHiddenNeurons - 1)
         else:  # for 0 hidden neurons
             randomRow = random.randint(0, c.numSensorNeurons - 1)
             randomColumn = random.randint(0, c.numMotorNeurons - 1)

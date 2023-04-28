@@ -16,7 +16,7 @@ def showGraph():
     mat.plot(getMeanOfEvolution(ThreeHiddenFitnessValues), linewidth=4, label="3")
     mat.plot(getMeanOfEvolution(FourHiddenFitnessValues), linewidth=5, label="4")
 
-    mat.xticks(x)
+    mat.xticks(xValues)
 
     mat.xlabel("Generations")
     mat.ylabel("Fitness")
@@ -40,5 +40,5 @@ def getMeanOfEvolution(array):
 # Set tick marks at each generation
 xValues = []
 for i in range(c.NUMBER_OF_GENERATIONS):
-    x.append(i)
+    xValues.append(i)
 showGraph()
