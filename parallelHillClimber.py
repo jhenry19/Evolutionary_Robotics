@@ -4,13 +4,15 @@ import copy
 import os
 import numpy as np
 
+MAX_GENERATIONS = 2000
+
 
 class PARALLEL_HILL_ClIMBER:
 
     def __init__(self, numHiddenNeurons):
         # Removes all temporary files at startup
         os.system("rm brain*.nndf")
-        os.system("rm fitness*.txt")
+        os.system("rm " + str(numHiddenNeurons) + "HN_fitness*.txt")
 
         self.currentHiddenNeurons = numHiddenNeurons
 
@@ -22,26 +24,43 @@ class PARALLEL_HILL_ClIMBER:
 
         self.children = None
 
-        # For analysis
-        self.firstGeneration = True
-        self.initialParentFitness = {}
-        self.finalParentFitness = {}
-
         # For AB Testing
-        self.fitnessResults = np.zeros((c.POPULATION_SIZE, c.NUMBER_OF_GENERATIONS))
+        self.fitnessResults = np.zeros((c.POPULATION_SIZE, MAX_GENERATIONS))
         self.generationCount = 0
+        self.print = False
 
-    def Evolve(self):
+    # Saves parents, next id, fitness results
+    def SaveRunInfo(self):
+        # Write next available id
+        f = open(str(self.currentHiddenNeurons) + "HN/nextId.txt", "w")
+        f.write(str(self.nextAvailableID))
+        f.close()
+
+        # save brains of each parents
+        for i in range(c.POPULATION_SIZE):
+            np.save(str(self.currentHiddenNeurons) + "HN/" + str(i) + "_Brain", np.array(self.parents[i].weights))
+
+        filename = str(self.currentHiddenNeurons) + "FitnessResults"
+        np.save(filename, self.fitnessResults)
+
+    # Switch Context to run evolve another brain
+    def PrepareForContextChange(self):
+        # Saves current fitness values
+        filename = str(self.currentHiddenNeurons) + "FitnessResults"
+        np.save(filename, self.fitnessResults)
+
+    def Evolve(self, numGenerations, shouldPrint):
         self.Evaluate(self.parents)
-
-        for i in range(c.NUMBER_OF_GENERATIONS):
+        self.print = shouldPrint
+        for i in range(numGenerations):
             self.Evolve_For_One_Generation()
 
     def Evolve_For_One_Generation(self):
         self.Spawn()
         self.Mutate()
         self.Evaluate(self.children)
-        self.Print()
+        if self.print:
+            self.Print()
         self.Select()
         self.generationCount += 1
 
@@ -79,7 +98,7 @@ class PARALLEL_HILL_ClIMBER:
             if self.children[i].fitness < self.parents[i].fitness:
                 self.parents[i] = self.children[i]
 
-    def Show_Best(self):
+    def Determine_Best(self):
         lowestScore = 99999.9
         lowestIndex = -1
         for i in range(c.POPULATION_SIZE):
@@ -87,27 +106,19 @@ class PARALLEL_HILL_ClIMBER:
                 lowestScore = self.parents[i].fitness
                 lowestIndex = i
 
-        self.parents[lowestIndex].Start_Simulation("GUI")
+        np.save(str(self.currentHiddenNeurons) + "HN/" + "Best_Brain", np.array(self.parents[lowestIndex].weights))
+        f = open(str(self.currentHiddenNeurons) + "HN/Best_Fitness.txt", "w")
+        f.write(str(self.parents[lowestIndex].fitness))
+        f.close()
 
-    def SaveFitnesses(self):
-        filename = str(self.currentHiddenNeurons) + "FitnessResults"
-        np.save(filename, self.fitnessResults)
+        # self.parents[lowestIndex].Start_Simulation("GUI")
 
-    def analysis(self):
-        averageImprovement = {}
-        averageImprovementPerGeneration = {}
-        sumOfImprovement = 0
-        for i in range(c.POPULATION_SIZE):
-            self.finalParentFitness[i] = self.parents[i].fitness
+    def SaveFitness(self):
+        filename = str(self.currentHiddenNeurons) + "HN_FitnessResults"
 
-            averageImprovement[i] = abs(self.initialParentFitness[i] - self.finalParentFitness[i])
-            sumOfImprovement += averageImprovement[i]
-            averageImprovementPerGeneration[i] = averageImprovement[i] / c.NUMBER_OF_GENERATIONS
+        # Save the fitness by converting it to a numpy array
+        np.save(filename, np.array(self.fitnessResults))
 
-        averageImprovementForSimulation = sumOfImprovement / c.POPULATION_SIZE
-
-        print(self.initialParentFitness)
-        print(self.finalParentFitness)
-        print(averageImprovement)
-        print(averageImprovementPerGeneration)
-        print(averageImprovementForSimulation)
+    def TrimFitness(self, length):
+        self.fitnessResults = self.fitnessResults[:length]
+        self.SaveFitness()

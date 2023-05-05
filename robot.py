@@ -6,6 +6,7 @@ from pyrosim.neuralNetwork import NEURAL_NETWORK
 import os
 import constants as c
 
+
 class ROBOT:
 
     def PrepareToSense(self):
@@ -46,15 +47,15 @@ class ROBOT:
         basePosition = basePositionAndOrientation[0]
         xPosition = basePosition[0]
 
-
         # Due to threading, temp file is used for writing and then copied to a final fitness file
         f = open("tmp" + str(self.myID) + ".txt", "w")
         f.write(str(xPosition))
         f.close()
 
-        os.system("mv tmp" + str(self.myID) + ".txt fitness" + str(self.myID) + ".txt")
+        finalFilePath = str(self.numHiddenNeurons) + "HN_fitness" + str(self.myID) + ".txt"
+        os.system("mv tmp" + str(self.myID) + ".txt " + finalFilePath)
 
-    def __init__(self, myID):
+    def __init__(self, myID, numHiddenNeurons):
         # Initialize sensors and motors
         self.motors = {}
         self.robot = p.loadURDF("body.urdf")  # creates robot
@@ -64,6 +65,8 @@ class ROBOT:
         self.PrepareToAct()
 
         self.myID = myID
+        self.numHiddenNeurons = numHiddenNeurons
 
-        self.nn = NEURAL_NETWORK("brain" + str(self.myID) + ".nndf")
-        os.system("rm brain" + str(myID) + ".nndf")
+        brainFilePath = str(numHiddenNeurons) + "HN_brain" + str(self.myID) + ".nndf"
+        self.nn = NEURAL_NETWORK(brainFilePath)
+        os.system("rm " + str(numHiddenNeurons) + "HN_brain" + str(self.myID) + ".nndf")

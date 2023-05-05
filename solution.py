@@ -29,10 +29,9 @@ class SOLUTION:
                 randomList.clear()
 
         self.weights = np.array(arrayOfNumpyArrays)
-
         self.weights = self.weights * 2 - 1
-        self.fitness = None
 
+        self.fitness = None
         self.myID = id
 
     def Set_ID(self, id):
@@ -88,8 +87,11 @@ class SOLUTION:
 
         pyrosim.End()
 
+    def Set_Weights(self, array):
+        self.weights = array
+
     def Create_Brain(self):
-        pyrosim.Start_NeuralNetwork("brain" + str(self.myID) + ".nndf")
+        pyrosim.Start_NeuralNetwork(str(self.numHiddenNeurons) + "HN_brain" + str(self.myID) + ".nndf")
 
         # Sensor Neurons
         sensors = ["Torso", "BackLeg", "FrontLeg", "LeftLeg", "RightLeg",
@@ -141,17 +143,29 @@ class SOLUTION:
         self.Create_World()
         self.Create_Body()
         self.Create_Brain()
-        os.system("python3 simulate.py " + directOrGUI + " " + str(self.myID) + " 2&>1 &")
+        os.system(
+            "python3 simulate.py " + directOrGUI + " " + str(self.myID) + " " + str(self.numHiddenNeurons) + " 2&>1 &")
+
+    def Simulation_With_Brain(self, brain):
+        self.weights = brain
+        self.Create_World()
+        self.Create_Body()
+        self.Create_Brain()
+        os.system(
+            "python3 simulate.py " + "GUI" + " " + str(self.myID) + " " + str(self.numHiddenNeurons))
+        self.Wait_For_Simulation_To_End()
 
     def Wait_For_Simulation_To_End(self):
         # Read in fitness value from txt only once simulation is done
-        fitnessFileName = "fitness" + str(self.myID) + ".txt"
+        fitnessFileName = str(self.numHiddenNeurons) + "HN_fitness" + str(self.myID) + ".txt"
         while not os.path.exists(fitnessFileName):  # waits for file to exist
             time.sleep(0.01)
 
         f = open(fitnessFileName, "r")
         self.fitness = float(f.read())
         f.close()
+
+        os.system("rm " + fitnessFileName)
 
     def Mutate(self):
         if self.numHiddenNeurons > 0:
