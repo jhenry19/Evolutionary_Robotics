@@ -33,14 +33,13 @@ while now - start <= secondsToRun:
     for phc in populations:
         phc.Evolve(GENERATIONS_PER_RUN, False)
         phc.SaveFitness()
-
     iterationsCompleted += 1
     now = time.time()
-    print("Completed", str(iterationsCompleted), "runs")
 
-for phc in populations:
-    phc.SaveRunInfo()
-    phc.Determine_Best()
+
+# for phc in populations:
+#     phc.SaveRunInfo()
+#     phc.Determine_Best()
 
 # # Fitnesses are too long. Cuts the arrays to only what is needed
 # for phc in populations:

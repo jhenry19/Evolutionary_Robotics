@@ -4,7 +4,7 @@ import copy
 import os
 import numpy as np
 
-MAX_GENERATIONS = 2000
+MAX_GENERATIONS = 5000
 
 
 class PARALLEL_HILL_ClIMBER:
@@ -30,18 +30,18 @@ class PARALLEL_HILL_ClIMBER:
         self.print = False
 
     # Saves parents, next id, fitness results
-    def SaveRunInfo(self):
-        # Write next available id
-        f = open(str(self.currentHiddenNeurons) + "HN/nextId.txt", "w")
-        f.write(str(self.nextAvailableID))
-        f.close()
-
-        # save brains of each parents
-        for i in range(c.POPULATION_SIZE):
-            np.save(str(self.currentHiddenNeurons) + "HN/" + str(i) + "_Brain", np.array(self.parents[i].weights))
-
-        filename = str(self.currentHiddenNeurons) + "FitnessResults"
-        np.save(filename, self.fitnessResults)
+    # def SaveRunInfo(self):
+    #     # Write next available id
+    #     f = open(str(self.currentHiddenNeurons) + "HN/nextId.txt", "w")
+    #     f.write(str(self.nextAvailableID))
+    #     f.close()
+    #
+    #     # save brains of each parents
+    #     for i in range(c.POPULATION_SIZE):
+    #         np.save(str(self.currentHiddenNeurons) + "HN/" + str(i) + "_Brain", np.array(self.parents[i].weights))
+    #
+    #     filename = str(self.currentHiddenNeurons) + "FitnessResults"
+    #     np.save(filename, self.fitnessResults)
 
     # Switch Context to run evolve another brain
     def PrepareForContextChange(self):
